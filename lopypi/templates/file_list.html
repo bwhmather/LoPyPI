@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block title %}Links for {{package}}{% endblock %}
+
+{% block content %}
+<h1>Links for {{package}}</h1>
+{% for file in files %}
+<a href="{{url_for('local.get_file', package=package,
+                               filename=file)
+         }}">{{ file }}</a><br>{% endfor %}
+{% endblock %}

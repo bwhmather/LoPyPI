@@ -1,0 +1,7 @@
+include README.mkd
+include LICENSE
+include MANIFEST.in
+include lopypi-server
+include lopypi-proxy
+recursive-include lopypi *.py
+recursive-include lopypi/templates *.html
