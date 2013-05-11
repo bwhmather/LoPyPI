@@ -5,5 +5,5 @@
 {% block content %}
 <h1>Packages</h1>
 {% for package in packages %}
-<a href="{{ package.uri }}">{{ package.name }}</a><br>{% endfor %}
+<a href="{{ package['uri'] }}">{{ package['name'] }}</a><br>{% endfor %}
 {% endblock %}
