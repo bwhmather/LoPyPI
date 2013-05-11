@@ -1,11 +1,10 @@
 import os
+import mimetypes
 
 from flask import Blueprint, Flask, current_app, url_for
 from flask import render_template, send_file, abort
 
 from lopypi.store import PackageStore
-
-import mimetypes
 
 
 views = Blueprint('local', __name__, template_folder="templates")
@@ -60,7 +59,7 @@ def get_file(package, filename):
 def create_app(package_dir):
     app = Flask(__name__)
     if not os.path.isdir(package_dir):
-        os.mkdirs(package_dir)
+        os.makedirs(package_dir)
     app.config['local_file_store'] = PackageStore(package_dir)
     app.register_blueprint(views)
     return app

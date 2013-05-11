@@ -1,12 +1,11 @@
 import os
+import mimetypes
 
 from flask import Blueprint, Flask, current_app, url_for
 from flask import render_template, send_file, abort
 
 from lopypi.store import PackageStore
 from lopypi.pypi import PyPI
-
-import mimetypes
 
 
 views = Blueprint('proxy', __name__, template_folder="templates")
@@ -72,7 +71,7 @@ def get_file(package, filename):
 def create_app(package_dir, pypi_url):
     app = Flask(__name__)
     if not os.path.isdir(package_dir):
-        os.mkdirs(package_dir)
+        os.makedirs(package_dir)
     app.config['cached_file_store'] = PackageStore(package_dir)
     app.config['pypi'] = PyPI(pypi_url)
     app.register_blueprint(views)
