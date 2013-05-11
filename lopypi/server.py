@@ -1,4 +1,4 @@
-from flask import Blueprint, Flask, current_app
+from flask import Blueprint, Flask, current_app, url_for
 from flask import render_template, send_file, abort
 
 from lopypi.store import PackageStore
@@ -15,7 +15,9 @@ def list_packages():
     """
     store = current_app.config['local_file_store']
 
-    packages = store.list_packages()
+    packages = (dict(name=name,
+                     uri=url_for('local.list_files', package=name))
+                for name in store.list_packages())
     return render_template("package_list.html", packages=packages)
 
 
@@ -25,9 +27,11 @@ def list_files(package):
     """
     store = current_app.config['local_file_store']
 
-    files = store.list_files(package)
-    if not files:
-        return abort(404)
+    files = list(store.list_files(package))
+    map(lambda f: f.update({'uri': url_for('local.get_file',
+                                           package=package,
+                                           filename=f['filename'])}),
+        files)
 
     return render_template("file_list.html",
                            package=package,

@@ -12,7 +12,12 @@ class PackageStore(object):
         return os.listdir(self.directory)
 
     def list_files(self, package):
-        return os.listdir(self._get_package_path(package))
+        package_path = self._get_package_path(package)
+        if not os.path.isdir(package_path):
+            return
+
+        for f in os.listdir(self._get_package_path(package)):
+            yield dict(filename=f)
 
     def get_file(self, package, filename):
         """
@@ -39,13 +44,6 @@ class PackageStore(object):
                 content = shutil.copyfileobj(content, output)
             else:
                 output.write(content)
-
-    def add_file_from_uri(self, package, filename, source):
-        """
-        :param source: a path or uri pointing to the file to cache
-        """
-        # TODO
-        pass
 
     def _get_package_path(self, package):
         # TODO don't allow package name to contain path seperators
