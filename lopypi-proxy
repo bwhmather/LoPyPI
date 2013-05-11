@@ -1,0 +1,29 @@
+#!/usr/bin/env python
+
+import argparse
+from lopypi.proxy import create_app
+
+
+parser = argparse.ArgumentParser()
+
+parser.add_argument("cache_dir",
+                    help="Where to store cached files.")
+parser.add_argument("--pypi", default="http://pypi.python.org/simple",
+                    help="URL of upstream package index.")
+parser.add_argument("-a", "--address", default="0.0.0.0",
+                    help="Address to bind to.")
+parser.add_argument("-p", "--port", default=8080, type=int,
+                    help="Port to listen on.")
+parser.add_argument("-v", "--verbose", default=False, action="store_true",
+                    help="Turn on verbose output.")
+parser.add_argument("--reload", default=False, action="store_true",
+                    help="Turn on automatic reloading on code changes.")
+parser.add_argument("--processes", default=1, type=int,
+                    help="Number of processes to run")
+
+args = parser.parse_args()
+
+app = create_app(args.cache_dir, args.pypi)
+app.run(host=args.address, port=args.port,
+        debug=args.verbose, use_reloader=args.reload,
+        processes=args.processes)

@@ -1,7 +1,7 @@
 from distutils.core import setup
 
 setup(
-    name='LoPyPi',
+    name='LoPyPI',
     version='0.0.1',
     description="A local PyPi server and PyPi caching proxy",
     author='Ben Mather',
@@ -13,5 +13,7 @@ setup(
     package_data={'lopypi': ['templates/*.html']},
     install_requires=[
         'Flask',
+        'requests',
+        'beautifulsoup4',
     ]
 )
