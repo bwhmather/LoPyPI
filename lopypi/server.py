@@ -1,3 +1,5 @@
+import os
+
 from flask import Blueprint, Flask, current_app, url_for
 from flask import render_template, send_file, abort
 
@@ -57,6 +59,8 @@ def get_file(package, filename):
 
 def create_app(package_dir):
     app = Flask(__name__)
+    if not os.path.isdir(package_dir):
+        os.mkdirs(package_dir)
     app.config['local_file_store'] = PackageStore(package_dir)
     app.register_blueprint(views)
     return app
