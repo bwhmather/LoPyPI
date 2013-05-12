@@ -12,7 +12,7 @@ class PyPI(object):
     def list_packages(self):
         resp = requests.get(self._index)
 
-        soup = BeautifulSoup(package_list)
+        soup = BeautifulSoup(resp.content)
 
         for link in soup.find_all("a"):
             yield link.text
