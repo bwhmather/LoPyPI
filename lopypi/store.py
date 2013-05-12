@@ -23,7 +23,7 @@ class PackageStore(object):
         """
         :returns: an open read-only file handle or ``None``
         """
-        filepath = self._get_filepath(package, filename)
+        filepath = self._get_file_path(package, filename)
         if not os.path.isfile(filepath):
             return None
 
@@ -49,7 +49,7 @@ class PackageStore(object):
         # TODO don't allow package name to contain path seperators
         return safe_join(self.directory, package)
 
-    def _get_filepath(self, package, filename):
+    def _get_file_path(self, package, filename):
         """
         :returns: the path at which the file should be saved (even if it does
                   not exists)
