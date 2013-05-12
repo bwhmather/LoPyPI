@@ -1,8 +1,8 @@
 import os
 import mimetypes
 import tempfile
+
 import requests
-import shutil
 
 from flask import Blueprint, Flask, current_app, url_for
 from flask import render_template, send_file, abort, Response
@@ -31,7 +31,6 @@ def list_files(package):
     """
     """
     pypi = current_app.config['pypi']
-    store = current_app.config['cached_file_store']
 
     files = list(pypi.list_files(package))
     for f in files:

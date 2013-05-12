@@ -5,6 +5,7 @@ from bs4 import BeautifulSoup
 import requests
 from urlparse import urldefrag, urljoin
 
+
 class PyPI(object):
     def __init__(self, index="http://pypi.python.org/simple"):
         self._index = index
