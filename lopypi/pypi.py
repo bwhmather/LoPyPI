@@ -25,7 +25,10 @@ class PyPI(object):
         soup = BeautifulSoup(resp.content)
 
         for link in soup.find_all("a"):
-            rel = link.attrs.get("rel", None)
+            if 'rel' in link.attrs:
+                rel = link.attrs.get('rel')[0]
+            else:
+                rel = None
 
             filename = link.text
 
