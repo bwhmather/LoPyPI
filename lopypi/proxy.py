@@ -20,9 +20,8 @@ def list_packages():
     """
     pypi = current_app.config['pypi']
 
-    packages = list(pypi.list_packages())
-    for package in packages:
-        package['uri'] = url_for('proxy.list_files', package=package['name'])
+    packages = (dict(uri=url_for('proxy.list_files', package=name),
+                     name=name) for name in pypi.list_packages())
     return render_template("package_list.html", packages=packages)
 
 
