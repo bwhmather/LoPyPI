@@ -33,7 +33,8 @@ def list_files(package):
 
     files = list(pypi.list_files(package))
     for f in files:
-        if f['md5']:
+        if f['filename'].endswith(('.zip', '.tar.gz', '.exe',
+                                   '.pybundle', '.egg', '.whl')):
             f['uri'] = url_for('proxy.get_file',
                                package=package,
                                filename=f['filename'])
