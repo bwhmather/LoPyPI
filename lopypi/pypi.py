@@ -18,29 +18,24 @@ class PyPI(object):
         for link in soup.find_all("a"):
             yield link.text
 
-    def list_files(self, package):
+    def list_files(self, package, ):
         package_uri = "%s/%s/" % (self._index, package)
         resp = requests.get(package_uri)
 
         soup = BeautifulSoup(resp.content)
 
         for link in soup.find_all("a"):
-            # filter out links to home and download pages
-            if "rel" in link.attrs:
-                continue
+            rel = link.attrs.get("rel", None)
 
             filename = link.text
-
-            # filter out links to other web pages
-            if urlsplit(filename).scheme:
-                continue
 
             file_uri, frag = urldefrag(link.attrs['href'])
             file_uri = urljoin(package_uri, file_uri)
 
             mo = re.match(r"^md5=([a-fA-F0-9]{32})$", frag)
-            md5 = mo.group(1) if mo else ""
+            md5 = mo.group(1) if mo else None
 
             yield dict(filename=filename,
                        remote_uri=file_uri,
+                       rel=rel,
                        md5=md5)

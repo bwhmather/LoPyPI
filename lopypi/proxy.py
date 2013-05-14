@@ -34,9 +34,12 @@ def list_files(package):
 
     files = list(pypi.list_files(package))
     for f in files:
-        f['uri'] = url_for('proxy.get_file',
-                           package=package,
-                           filename=f['filename'])
+        if f['md5']:
+            f['uri'] = url_for('proxy.get_file',
+                               package=package,
+                               filename=f['filename'])
+        else:
+            f['uri'] = f['remote_uri']
 
     return render_template("file_list.html",
                            package=package,
